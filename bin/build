@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker build --no-cache -t ruby_dev_image .

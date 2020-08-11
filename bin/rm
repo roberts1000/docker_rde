@@ -1,0 +1,4 @@
+#!/bin/bash
+
+prefix=$(command -v winpty)
+$prefix docker rm -v ruby_dev

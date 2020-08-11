@@ -1,0 +1,5 @@
+/user_files/*
+!/user_files/README.md
+
+/binaries/*
+!/binaries/README.md
