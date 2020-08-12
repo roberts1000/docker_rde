@@ -350,9 +350,37 @@ RUN echo "\n# Define system aliases" | tee -a ~/.bashrc && \
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
-# Install NodeJS.
-RUN curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - && \
+# Install a system NodeJS. The nvm (node version manager) tool is installed in a later step. nvm will take over and activate
+# a version of NodeJS that is not installed in the system. The system version can be used by executing 'nvm use system'.
+#
+# The version of NodeJS should match the version used in production on PCF. This version should be the same as the NodeJS
+# version that is packaged with the latest Ruby buildpack (https://github.com/cloudfoundry/ruby-buildpack/releases), but
+# DIDIT may not always have the latest version installed. Before changing this version, login to PCF and find the exact Ruby
+# buildpack that is used on the PaaS. This value is also used to set the default version of NodeJS in nvm.
+ENV NODEJS_MAJOR_VERSION=12
+RUN curl -sL https://deb.nodesource.com/setup_$NODEJS_MAJOR_VERSION.x | sudo -E bash - && \
   sudo apt-get update -qq && sudo apt-get install -y nodejs
+# *****************************************************************************************************************************
+
+# *****************************************************************************************************************************
+# Install nvm.
+ENV NVM_VERSION=0.35.3
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v$NVM_VERSION/install.sh | bash
+# The 'source /home/$DEV_USER/.nvm/nvm.sh' statements below are a hack. The above 'curl' command installs nvm and adds some
+# lines to ~/.bashrc. When a login shell is started (using '/bin/bash -l') ~/.bashrc should get sourced and the `nvm`
+# command should get loaded. For some reason this isn't working and Docker throws an error saying "nvm not defined".
+# Ideally, a line like this should work:
+#   /bin/bash -l -c "nvm install $DEFAULT_NODEJS"
+# but it doesn't. Directly sourcing .bashrc file doesn't work either:
+#   /bin/bash -l -c "source /home/$DEV_USER/.bashrc && nvm ...
+# Using the -i option to start an interactive shell works:
+#   /bin/bash -l -i -c "nvm install $DEFAULT_NODEJS"
+# but Docker writes some other error messages to the output. This isn't a huge deal since everything seems to work, but
+# sourcing the nvm.sh directly doesn't trigger any errors so that method is used. The idea came from this comment:
+# https://stackoverflow.com/questions/25899912/how-to-install-nvm-in-docker#comment68635366_33963559
+RUN /bin/bash -l -c "source /home/$DEV_USER/.nvm/nvm.sh && nvm install $NODEJS_MAJOR_VERSION" && \
+  /bin/bash -l -c "source /home/$DEV_USER/.nvm/nvm.sh && nvm alias default $NODEJS_MAJOR_VERSION" && \
+  /bin/bash -l -c "source /home/$DEV_USER/.nvm/nvm.sh && nvm use default"
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
