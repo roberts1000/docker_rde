@@ -303,6 +303,13 @@ RUN git config --global alias.co 'checkout' && \
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
+# Add custom Git commands. New Git commands can be placed in the templates/.gitbin/ folder in the docker_rde repo. Each command
+# should be placed in a file named "git-xyz" where "xyz" is the name of the command.
+ADD $HOST_TEMPLATES_DIR/.gitbin/ .gitbin
+RUN sudo chown -R $DEV_USER:$DEV_USER .gitbin &&\
+  sudo chmod -R +x $HOME_DIR/.gitbin
+# Git finds all files, in folders on the PATH, that follow the git-xyz.
+ENV PATH=$HOME_DIR/.gitbin:$PATH
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
