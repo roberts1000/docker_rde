@@ -6,6 +6,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 
 1. [#5](../../issues/5): Add `git gone`.
 1. [#6](../../issues/6): Make `postgres` own `/var/run/postgresql`.
+1. [#9](../../issues/9): Install nvm 0.35.3.
 
 ## 1.0.0 (Aug 11, 2020)
 
