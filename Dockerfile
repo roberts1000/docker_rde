@@ -440,7 +440,8 @@ RUN sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_
   sudo apt-get install -y postgresql-$POSTGRES_VERSION postgresql-contrib-$POSTGRES_VERSION && \
   sudo service postgresql start && \
   sudo -u postgres createuser --superuser --replication $DEV_USER && \
-  sudo -u postgres createdb -O dev dev
+  sudo -u postgres createdb -O dev dev && \
+  sudo chown -R postgres:postgres /var/run/postgresql
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
