@@ -2,7 +2,7 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next Release
+## 3.0.0 (Sep 04, 2020)
 
 1. [#20](../../issues/20): Use Ubuntu 20.04.
 
