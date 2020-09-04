@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # Set the image version as early as possible. Placing this at the top ensures the Docker cache is busted when the version is
 # changed. The value of IMAGE_VERSION is displayed in the command prompt of a container.
@@ -26,7 +26,7 @@ ENV IMAGE_VERSION=2.0.0
 # *****************************************************************************************************************************
 
 # Docker images work with the root account by default. A non-root user is created for development work.
-ARG DEV_USER=dev
+ENV DEV_USER=dev
 # Set the home location for the non-root dev user.
 ENV HOME_DIR=/home/$DEV_USER
 # Recommend ~/Projects as the primary place to work on projects inside a container. Towards the end of this Dockerfile,
@@ -509,19 +509,20 @@ RUN sudo service postgresql start && \
 # # *****************************************************************************************************************************
 # # Install MySQL.
 RUN sudo apt-get update -qq && \
-  sudo apt-get install -y mysql-server-5.7 && \
+  sudo apt-get install -y mysql-server && \
   # Needed so the mysql2 Ruby gem can install.
   sudo apt-get install -y libmysqlclient-dev
 
 # Configure MySQL.
 RUN sudo sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf && \
-  # Makes a 'No directory, logging in with HOME=/' message go away. Taken from https://askubuntu.com/a/738079.
+  # Makes a 'su: warning: cannot change directory to /nonexistent: No such file or directory' message go away.
+  # Taken from https://askubuntu.com/a/738079.
   sudo usermod -d /var/lib/mysql/ mysql && \
   sudo service mysql start && \
-  echo "update mysql.user set host = '%' where user='root';" | sudo mysql -u root --default-character-set=utf8 && \
-  echo "CREATE USER '$DEV_USER' IDENTIFIED BY '$DEV_USER_PWD';" | sudo mysql -u root --default-character-set=utf8 && \
-  # echo "REVOKE ALL PRIVILEGES ON *.* FROM '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root --default-character-set=utf8 && \
-  echo "GRANT ALL PRIVILEGES ON *.* TO '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root --default-character-set=utf8 && \
+  echo "update mysql.user set host = '%' where user='root';" | sudo mysql -u root && \
+  echo "CREATE USER '$DEV_USER' IDENTIFIED BY '$DEV_USER_PWD';" | sudo mysql -u root && \
+  # echo "REVOKE ALL PRIVILEGES ON *.* FROM '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root && \
+  echo "GRANT ALL PRIVILEGES ON *.* TO '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root && \
   sudo service mysql stop
 # *****************************************************************************************************************************
 
