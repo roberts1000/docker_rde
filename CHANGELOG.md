@@ -2,11 +2,11 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next Release
+## 2.0.0 (Sep 04, 2020)
 
 1. [#16](../../issues/16): Use Ubuntu 18.04.
 
-## 1.1.0 (Sep 09, 2020)
+## 1.1.0 (Sep 03, 2020)
 
 1. [#5](../../issues/5): Add `git gone`.
 1. [#6](../../issues/6): Make `postgres` own `/var/run/postgresql`.

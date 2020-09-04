@@ -10,6 +10,7 @@ docker_rde uses [Semver 2.0.0](https://semver.org/spec/v2.0.0.html).
 
 ## OS Support
 
+Versions 2.x.x use Ubuntu 18.04.
 Versions 1.x.x use Ubuntu 16.04.
 
 ## Instructions
