@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Set the image version as early as possible. Placing this at the top ensures the Docker cache is busted when the version is
 # changed. The value of IMAGE_VERSION is displayed in the command prompt of a container.
@@ -462,8 +462,8 @@ RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/redis && \
 #  sudo server postgresql start
 # This is done at the very bottom of the Dockerfile.
 ARG POSTGRES_VERSION=11
-RUN sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" && \
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && \
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && \
+  sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" && \
   sudo apt-get update -qq && \
   sudo apt-get install -y postgresql-$POSTGRES_VERSION postgresql-contrib-$POSTGRES_VERSION && \
   sudo service postgresql start && \
@@ -506,8 +506,8 @@ RUN sudo service postgresql start && \
   sudo service postgresql stop
 # *****************************************************************************************************************************
 
-# *****************************************************************************************************************************
-# Install MySQL.
+# # *****************************************************************************************************************************
+# # Install MySQL.
 RUN sudo apt-get update -qq && \
   sudo apt-get install -y mysql-server-5.7 && \
   # Needed so the mysql2 Ruby gem can install.
@@ -515,14 +515,14 @@ RUN sudo apt-get update -qq && \
 
 # Configure MySQL.
 RUN sudo sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf && \
-  sudo service mysql start && \
-  echo "update mysql.user set host = '%' where user='root';" | mysql -uroot --default-character-set=utf8 && \
-  echo "CREATE USER '$DEV_USER' IDENTIFIED BY '$DEV_USER_PWD'" | mysql -uroot --default-character-set=utf8 && \
-  # echo "REVOKE ALL PRIVILEGES ON *.* FROM '$DEV_USER'@'%'; FLUSH PRIVILEGES" | mysql -uroot --default-character-set=utf8 && \
-  echo "GRANT ALL PRIVILEGES ON *.* TO '$DEV_USER'@'%'; FLUSH PRIVILEGES" | mysql -uroot --default-character-set=utf8 && \
-  sudo service mysql stop && \
   # Makes a 'No directory, logging in with HOME=/' message go away. Taken from https://askubuntu.com/a/738079.
-  sudo usermod -d /var/lib/mysql/ mysql
+  sudo usermod -d /var/lib/mysql/ mysql && \
+  sudo service mysql start && \
+  echo "update mysql.user set host = '%' where user='root';" | sudo mysql -u root --default-character-set=utf8 && \
+  echo "CREATE USER '$DEV_USER' IDENTIFIED BY '$DEV_USER_PWD';" | sudo mysql -u root --default-character-set=utf8 && \
+  # echo "REVOKE ALL PRIVILEGES ON *.* FROM '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root --default-character-set=utf8 && \
+  echo "GRANT ALL PRIVILEGES ON *.* TO '$DEV_USER'@'%'; FLUSH PRIVILEGES;" | sudo mysql -u root --default-character-set=utf8 && \
+  sudo service mysql stop
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************

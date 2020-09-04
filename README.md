@@ -44,8 +44,8 @@ Turn the image into a container with the [bin/run](https://github.com/roberts100
     1. **dev user** - By default, a container will have a `dev` user with a password of `dev`. You can change this finding where the `DEV_USER` and `DEV_USER_PWD` variables are set in the [Dockerfile](Dockerfile).
 1. **PostgreSQL/MySQL** - Both PostreSQL and MySQL are installed and configured. By default, only MySQL is started when a container stats. If you would like to change this, go to the very bottom of the [Dockerfile](Dockerfile) and comment/uncomment the services you want started.
     1. **MySQL**
-        1. **root user** - The `root` MySQL user does not have a password.
-        1. **dev user** - By default, the RDE creates a MySQL user with the same name as the development user account, `dev`. If you change the `DEV_USER` environment variable to something other than `dev`, the MySQL user will match the new value.
+        1. **root user** - The `root` MySQL user does not have a password. Use `sudo mysql -u <root_user_here>` to login to `mysql`.
+        1. **dev user** - By default, the RDE creates a MySQL user with the same name as the development user account, `dev`. If you change the `DEV_USER` environment variable to something other than `dev`, the MySQL user will match the new value. Use `mysql -u <dev_user_here> -p<dev_user_pwd_here>` to login.
 1. **Proxies** - Proxy setup is commented-out by default. To add a proxy, uncomment the appropriate section near the top of the [Dockerfile](Dockerfile).
 
 ## Support
