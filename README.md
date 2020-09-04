@@ -8,6 +8,10 @@ docker_rde uses Docker in an atypical way. Instead of encapsulating a single app
 
 docker_rde uses [Semver 2.0.0](https://semver.org/spec/v2.0.0.html).
 
+## OS Support
+
+Versions 1.x.x use Ubuntu 16.04.
+
 ## Instructions
 
 Clone the repo and `cd` into the project folder.
