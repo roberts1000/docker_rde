@@ -280,13 +280,7 @@ RUN mkdir build/git-lfs && \
 # *****************************************************************************************************************************
 # Enhance the prompt the Git info. The following section installs a script that shows Git-related status info in the prompt
 # if the user is in a folder that is a git repo.
-RUN mkdir ~/.bash_scripts && \
-  cd ~/.bash_scripts && \
-  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o git-prompt.sh && \
-  chmod +x ~/.bash_scripts/git-prompt.sh && \
-  echo "\n# Load script that enhances prompt with GIT info" | tee -a ~/.bashrc && \
-  echo "source ~/.bash_scripts/git-prompt.sh" | tee -a ~/.bashrc && \
-  echo "\n# Configure the git-prompt.sh script" | tee -a ~/.bashrc && \
+RUN echo "\n# Configure the git-prompt.sh script" | tee -a ~/.bashrc && \
   echo "export GIT_PS1_SHOWDIRTYSTATE=1" | tee -a ~/.bashrc && \
   echo "export GIT_PS1_SHOWSTASHSTATE=1" | tee -a ~/.bashrc && \
   echo "export GIT_PS1_SHOWUNTRACKEDFILES=1" | tee -a ~/.bashrc
