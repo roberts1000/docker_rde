@@ -45,7 +45,9 @@ ENV HOST_TEMPLATES_DIR=./templates
 # logic that can't be executed directly in the Dockerfile. The scripts are copied into an image when building, and execute
 # inside an intermediate container.
 ENV HOST_BUILD_SCRIPTS_DIR=./build_scripts
-# The main directory that will hold user supplied binaries during build time.
+# The main directory that will hold user supplied binaries during build time. Any files placed in here will be copied into the
+# container. Some binaries must be provided to complete the build process. This folder can be used to pass other binaries
+# if needed. The binaries folder is not removed during the build process.
 ENV BINARIES_DIR=$HOME_DIR/binaries
 # The main directory where temporary build files are copied/downloaded.
 ENV BUILD_DIR=$HOME_DIR/build
@@ -206,7 +208,8 @@ ADD $HOST_BINARIES_DIR $BINARIES_DIR
 ADD $HOST_BUILD_SCRIPTS_DIR $BUILD_SCRIPTS_DIR
 ADD $HOST_USER_FILES_DIR $USER_FILES_DIR
 RUN sudo chmod +x $BUILD_SCRIPTS_DIR/* && \
-  sudo chown $DEV_USER:$DEV_USER $USER_FILES_DIR
+  sudo chown $DEV_USER:$DEV_USER $USER_FILES_DIR && \
+  sudo chown -R $DEV_USER:$DEV_USER $BINARIES_DIR
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
@@ -393,7 +396,7 @@ ENV CHROME_FILE=google-chrome-stable_current_amd64.deb
 ENV FULL_CHROME_FILE=${BINARIES_DIR}/${CHROME_FILE}
 WORKDIR $BUILD_DIR/chrome
 RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/chrome && \
-  sudo mv ${FULL_CHROME_FILE} . && \
+  sudo cp ${FULL_CHROME_FILE} . && \
   # Install dependencies used by Chrome.
   sudo apt-get update -qq && \
   sudo apt-get install -y libasound2 fonts-liberation libappindicator3-1 libnss3 libnspr4 libxss1 xdg-utils && \
@@ -414,7 +417,7 @@ ENV CHROME_DRIVER_FILE=chromedriver_linux64.zip
 ENV FULL_CHROME_DRIVER_FILE=${BINARIES_DIR}/${CHROME_DRIVER_FILE}
 WORKDIR $BUILD_DIR/chromedriver
 RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/chromedriver/ && \
-  sudo mv ${FULL_CHROME_DRIVER_FILE} . && \
+  sudo cp ${FULL_CHROME_DRIVER_FILE} . && \
   unzip -q ${CHROME_DRIVER_FILE} && \
   chmod a+rx chromedriver && \
   sudo mv chromedriver /usr/local/bin && \
