@@ -77,19 +77,33 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 #  debconf: delaying package configuration, since apt-utils is not installed
 RUN apt-get -qq update && \
   # '>/dev/null 2>&1' hides a "debconf: delaying .." warning that would appear here.
-  apt-get install -y apt-utils >/dev/null 2>&1
+  apt-get install -y apt-utils >/dev/null 2>&1 && \
+  # Add commands to apt-get (like add-apt-repository).
+  apt-get install -y software-properties-common
+# *****************************************************************************************************************************
+
+# *****************************************************************************************************************************
+# Install and configure apt-fast. apt-fast is a tool that wraps around apt-get. It downloads packages concurrently which
+# dramatically reduces overall build time. apt-fast is used exactly like apt-get is used. apt, apt-get or apt-fast can all
+# be used in a container.
+RUN add-apt-repository ppa:apt-fast/stable && \
+    apt-get update && \
+    apt-get install -y apt-fast && \\
+    echo debconf apt-fast/maxdownloads string 10 | debconf-set-selections && \
+    echo debconf apt-fast/dlflag boolean true | debconf-set-selections && \
+    echo debconf apt-fast/aptmanager string apt-get | debconf-set-selections
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
 # Upgrade packages that are present by default in the base Ubuntu image.
-RUN apt-get -y upgrade
+RUN apt-fast -y upgrade
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
 # Install common packages. The base Ubuntu image provides a minimal Ubuntu OS. It's missing many common packages that
 # developers expect to have in Ubuntu. Add simple packages here. Complex packages (like Postgres, yarn, etc...) should be
 # added in their own step. THey usually require additional configuration.
-RUN apt-get install -y \
+RUN apt-fast install -y \
   # Allows apt-get to use repos that use https.
   apt-transport-https \
   # Lets tools like apt ask question in the terminal.
@@ -102,8 +116,6 @@ RUN apt-get install -y \
   locales \
   # Installs the nano editor.
   nano \
-  # Adds commands to apt-get.
-  software-properties-common \
   # Installs sudo.
   sudo \
   # Installs the wget tool.
@@ -118,7 +130,7 @@ RUN apt-get install -y \
 # Setup timezone info. Once the tzdata package is installed on the system, more timezones can be found by running
 #  ls -lha /usr/share/zoneinfo
 ARG TIME_ZONE=Etc/UTC
-RUN apt-get install -y tzdata && \
+RUN apt-fast install -y tzdata && \
   # link /etc/localtime/ to the correct timezone file.
   ln -fns /usr/share/zoneinfo/$TIME_ZONE /etc/localtime && \
   # Ensure /etc/timezone is updated
@@ -180,8 +192,8 @@ RUN echo "root:${ROOT_USER_PWD}" | sudo chpasswd
 
 # *****************************************************************************************************************************
 # Install command packages.
-RUN sudo apt-get update -qq &&\
-  sudo apt-get install -y \
+RUN sudo apt-fast update -qq &&\
+  sudo apt-fast install -y \
   # A tool that converts packages from one distro file format to another. It's usually used to convert .rpm packages to .deb.
   alien \
   # Add tab completion to the terminal.
@@ -251,8 +263,8 @@ RUN sudo chown -R $DEV_USER:$DEV_USER .bundle
 # *****************************************************************************************************************************
 # Install Git. Add the official git repo to the package list so we can always have the latest version of Git.
 RUN sudo add-apt-repository ppa:git-core/ppa && \
-  sudo apt-get update -qq && \
-  sudo apt-get install git -y
+  sudo apt-fast update -qq && \
+  sudo apt-fast install git -y
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
@@ -356,7 +368,7 @@ RUN echo "\n# Define system aliases" | tee -a ~/.bashrc && \
 # buildpack that is used on the PaaS. This value is also used to set the default version of NodeJS in nvm.
 ENV NODEJS_MAJOR_VERSION=12
 RUN curl -sL https://deb.nodesource.com/setup_$NODEJS_MAJOR_VERSION.x | sudo -E bash - && \
-  sudo apt-get update -qq && sudo apt-get install -y nodejs
+  sudo apt-fast update -qq && sudo apt-fast install -y nodejs
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
@@ -384,7 +396,7 @@ RUN /bin/bash -l -c "source /home/$DEV_USER/.nvm/nvm.sh && nvm install $NODEJS_M
 # Install yarn.
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
-  sudo apt-get update -qq && sudo apt-get install -y yarn
+  sudo apt-fast update -qq && sudo apt-fast install -y yarn
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
@@ -398,8 +410,8 @@ WORKDIR $BUILD_DIR/chrome
 RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/chrome && \
   sudo cp ${FULL_CHROME_FILE} . && \
   # Install dependencies used by Chrome.
-  sudo apt-get update -qq && \
-  sudo apt-get install -y libasound2 fonts-liberation libappindicator3-1 libnss3 libnspr4 libxss1 xdg-utils && \
+  sudo apt-fast update -qq && \
+  sudo apt-fast install -y libasound2 fonts-liberation libappindicator3-1 libnss3 libnspr4 libxss1 xdg-utils && \
   # Install Chrome from the .deb file.
   sudo dpkg -i ${CHROME_FILE} && \
   google-chrome --version && \
@@ -461,8 +473,8 @@ RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/redis && \
 ARG POSTGRES_VERSION=11
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && \
   sudo add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -sc)-pgdg main" && \
-  sudo apt-get update -qq && \
-  sudo apt-get install -y postgresql-$POSTGRES_VERSION postgresql-contrib-$POSTGRES_VERSION && \
+  sudo apt-fast update -qq && \
+  sudo apt-fast install -y postgresql-$POSTGRES_VERSION postgresql-contrib-$POSTGRES_VERSION && \
   sudo service postgresql start && \
   sudo -u postgres createuser --superuser --replication $DEV_USER && \
   sudo -u postgres createdb -O dev dev && \
@@ -505,10 +517,10 @@ RUN sudo service postgresql start && \
 
 # # *****************************************************************************************************************************
 # # Install MySQL.
-RUN sudo apt-get update -qq && \
-  sudo apt-get install -y mysql-server && \
+RUN sudo apt-fast update -qq && \
+  sudo apt-fast install -y mysql-server && \
   # Needed so the mysql2 Ruby gem can install.
-  sudo apt-get install -y libmysqlclient-dev
+  sudo apt-fast install -y libmysqlclient-dev
 
 # Configure MySQL.
 RUN sudo sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf && \
@@ -527,7 +539,7 @@ RUN sudo sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc
 # Install openssh. Docker doesn't automatically start the SSH service when a container starts. It has to be started by calling
 #   sudo server ssh start
 # This is done at the very bottom of the Dockerfile.
-RUN sudo apt-get update -qq && sudo apt-get install -y openssh-server
+RUN sudo apt-fast update -qq && sudo apt-fast install -y openssh-server
 
 # Customize openssh.
 # Remove lines starting with X11 from the config file. We're going to add some below and this avoids conflicting configuration.
@@ -565,7 +577,7 @@ RUN $BUILD_SCRIPTS_DIR/setup_bashrc_additions
 # *****************************************************************************************************************************
 # Perform final cleanup.
 # Remove unneeded packages.
-RUN sudo apt-get -y autoremove && \
+RUN sudo apt-fast -y autoremove && \
   # Remove items copied or downloaded to the build folder. sudo is needed because some archives may extract files that are
   # owned by root into the build folder.
   sudo rm -rf $BUILD_DIR
