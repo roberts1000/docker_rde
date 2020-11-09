@@ -559,6 +559,7 @@ RUN /bin/bash -l -c "rvm default@mailcatcher --create do gem install mailcatcher
 # Configure the user prompt.
 RUN echo 'export PS1='"'"'\[\e]0;\u@\h \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h (rde-$IMAGE_VERSION)\[\033[01;33m\]`__git_ps1` \[\033[01;31m\]$RUBY_VERSION\[\033[35m\]$MSYSTEM\[\033[01;00m\] \[\033[01;34m\]\w\n\[\033[01;37m\]\$ \[\033[01;00m\]'"'" | tee -a ~/.bashrc && \
   # Configre the root prompt.
+  echo 'source /usr/lib/git-core/git-sh-prompt' | sudo tee -a /root/.bashrc && \
   echo 'export PS1='"'"'\[\e]0;\u@\h \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h (rde-$IMAGE_VERSION)\[\033[01;33m\]`__git_ps1` \[\033[01;31m\]$RUBY_VERSION\[\033[35m\]$MSYSTEM\[\033[01;00m\] \[\033[01;34m\]\w\n\[\033[01;37m\]\$ \[\033[01;00m\]'"'" | sudo tee -a /root/.bashrc
 # *****************************************************************************************************************************
 
