@@ -601,7 +601,7 @@ CMD sudo redis-server ${REDIS_CONFIG_FILE} && \
   # Start postgres server
   # sudo service postgresql start && \
   # Start MySQL server
-  # sudo service mysql start && \
+  sudo service mysql start && \
   # Start x-font server so XMing can have sane fonts.
   sudo xfstt --daemon && \
   /bin/bash --login
