@@ -602,6 +602,14 @@ RUN echo 'debconf debconf/frontend select Dialog' | sudo debconf-set-selections
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
+# Create IMAGE_VERSION files and ensure environment variable is created based on the file contents.
+RUN echo "$IMAGE_VERSION" | tee -a ~/IMAGE_VERSION
+RUN echo 'export IMAGE_VERSION=`cat ~/IMAGE_VERSION`' | tee -a ~/.bashrc
+RUN echo "$IMAGE_VERSION" | sudo tee -a /root/IMAGE_VERSION
+RUN echo 'export IMAGE_VERSION=`cat /root/IMAGE_VERSION`' | sudo tee -a /root/.bashrc
+# *****************************************************************************************************************************
+
+# *****************************************************************************************************************************
 CMD sudo redis-server ${REDIS_CONFIG_FILE} && \
   # Hide the default mailcatcher output and add something nicer. It throws a deprecation notice and other unnecessary info.
   printf " * Starting mailcatcher: " && /bin/bash -l -c ' mailcatcher --http-ip 0.0.0.0 >/dev/null 2>&1' && echo "[ OK ]" && \

@@ -18,6 +18,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#44](../../issues/40): Start mysql when a container starts.
 1. [#46](../../issues/46): Add Ruby 2.7.2 to the Ruby list.
 1. [#48](../../issues/48): Remove Ruby 2.7.1.
+1. [#53](../../issues/53): Set `IMAGE_VERSION` from file.
 
 ## 3.0.0 (Sep 04, 2020)
 
