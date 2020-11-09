@@ -9,6 +9,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#25](../../issues/25): Remove Qt.
 1. [#27](../../issues/27): Make the `Dockerfile` have Unix line endings.
 1. [#32](../../issues/32): Make the dev user own `~/binaries`.
+1. [#35](../../issues/35): Use RubyGems 3.1.4.
 
 ## 3.0.0 (Sep 04, 2020)
 
