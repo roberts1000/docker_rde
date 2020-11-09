@@ -354,7 +354,7 @@ RUN echo "\n# Define system aliases" | tee -a ~/.bashrc && \
 # version that is packaged with the latest Ruby buildpack (https://github.com/cloudfoundry/ruby-buildpack/releases), but
 # DIDIT may not always have the latest version installed. Before changing this version, login to PCF and find the exact Ruby
 # buildpack that is used on the PaaS. This value is also used to set the default version of NodeJS in nvm.
-ENV NODEJS_MAJOR_VERSION=12
+ENV NODEJS_MAJOR_VERSION=14
 RUN curl -sL https://deb.nodesource.com/setup_$NODEJS_MAJOR_VERSION.x | sudo -E bash - && \
   sudo apt-get update -qq && sudo apt-get install -y nodejs
 # *****************************************************************************************************************************
