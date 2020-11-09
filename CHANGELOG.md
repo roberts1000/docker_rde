@@ -2,7 +2,7 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next 3.1.0 Release
+## 3.1.0 (Nov 09, 2020)
 
 1. [#11](../../issues/11): Use Git LFS 2.12.1.
 1. [#24](../../issues/24): Remove `~/.bash_scripts/git-prompt.sh`.
