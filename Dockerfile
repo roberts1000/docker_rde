@@ -8,7 +8,7 @@ ENV IMAGE_VERSION=3.0.0
 # Configure the proxy. Uncomment if needed.
 #
 # ARG PROXY=<some proxy here>
-# ARG NO_PROXY=<some no_proxy here>
+# ARG NO_PROXY=host.docker.internal
 # ENV http_proxy=$PROXY \
 #   HTTP_PROXY=$PROXY \
 #   https_proxy=$PROXY \
