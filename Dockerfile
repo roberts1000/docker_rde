@@ -2,7 +2,7 @@ FROM ubuntu:20.04
 
 # Set the image version as early as possible. Placing this at the top ensures the Docker cache is busted when the version is
 # changed. The value of IMAGE_VERSION is displayed in the command prompt of a container.
-ENV IMAGE_VERSION=3.0.0
+ENV IMAGE_VERSION=3.1.0
 
 # *****************************************************************************************************************************
 # Configure the proxy. Uncomment if needed.
@@ -460,7 +460,7 @@ RUN sudo chown $DEV_USER:$DEV_USER $BUILD_DIR/redis && \
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
-# Install Postgres. DOcker automatically start the service when a container starts. It has to be started by calling
+# Install Postgres. Docker automatically start the service when a container starts. It has to be started by calling
 #  sudo server postgresql start
 # This is done at the very bottom of the Dockerfile.
 ARG POSTGRES_VERSION=11
