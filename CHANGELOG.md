@@ -4,7 +4,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 
 ## Next 3.x.x Release
 
-1. [#11](../../issues/11): Use Git LFS 2.12.0.
+1. [#11](../../issues/11): Use Git LFS 2.12.1.
 1. [#24](../../issues/24): Remove `~/.bash_scripts/git-prompt.sh`.
 1. [#25](../../issues/25): Remove Qt.
 1. [#27](../../issues/27): Make the `Dockerfile` have Unix line endings.
