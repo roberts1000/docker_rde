@@ -22,6 +22,12 @@ Manually create required files in the `user_files` folder:
 1. Create a file named `email_address`. This file should contain the value you want set as your email address in `git`.
 1. Add an `id_rsa` and a `id_rsa.pub` file. These files will be copied to the `~/.ssh/` folder inside a container.
 1. Create a `.bashrc_additions` file. This file is optional. If present, the RDE will add `source ~/.bashrc_additions` to the bottom of a container's `~/.bashrc`. This lets you import custom commands into to a container.
+1. If you have a RubyGems account and would like configure the container to push to RubyGems, create a file named `rubygems_credentials` file. Add the following contents to the file and replace XYZ with your RubyGems API key.
+
+    ```
+    ---
+    :rubygems_api_key: XYZ
+    ```
 
 Download binaries and place them in the `binaries` folder:
 

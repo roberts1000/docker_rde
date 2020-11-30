@@ -571,15 +571,6 @@ RUN $BUILD_SCRIPTS_DIR/setup_bashrc_additions
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
-# Perform final cleanup.
-# Remove unneeded packages.
-RUN sudo apt-get -y autoremove && \
-  # Remove items copied or downloaded to the build folder. sudo is needed because some archives may extract files that are
-  # owned by root into the build folder.
-  sudo rm -rf $BUILD_DIR
-# *****************************************************************************************************************************
-
-# *****************************************************************************************************************************
 # Create and enter the projects folder.
 RUN mkdir $PROJECTS_DIR
 WORKDIR $PROJECTS_DIR
@@ -607,6 +598,23 @@ RUN echo "$IMAGE_VERSION" | tee -a ~/IMAGE_VERSION
 RUN echo 'export IMAGE_VERSION=`cat ~/IMAGE_VERSION`' | tee -a ~/.bashrc
 RUN echo "$IMAGE_VERSION" | sudo tee -a /root/IMAGE_VERSION
 RUN echo 'export IMAGE_VERSION=`cat /root/IMAGE_VERSION`' | sudo tee -a /root/.bashrc
+# *****************************************************************************************************************************
+
+# *****************************************************************************************************************************
+# Configure RubyGems Credentials
+RUN if [ -f "$USER_FILES_DIR/rubygems_credentials" ]; \
+  then mv "$USER_FILES_DIR/rubygems_credentials" /home/dev/.gem/credentials; \
+  chmod 600 /home/dev/.gem/credentials; \
+  fi
+# *****************************************************************************************************************************
+
+# *****************************************************************************************************************************
+# Perform final cleanup.
+# Remove unneeded packages.
+RUN sudo apt-get -y autoremove && \
+  # Remove items copied or downloaded to the build folder. sudo is needed because some archives may extract files that are
+  # owned by root into the build folder.
+  sudo rm -rf $BUILD_DIR
 # *****************************************************************************************************************************
 
 # *****************************************************************************************************************************
