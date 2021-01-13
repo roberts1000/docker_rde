@@ -2,7 +2,7 @@
 
 # The first version in the list will be set as the default Ruby in RVM.
 RUBIES_TO_INSTALL = ['2.6.6', '2.7.2']
-BUNDLER_TO_INSTALL = '2.1.4'
+BUNDLER_TO_INSTALL = '2.2.5'
 RUBYGEMS_TO_INSTALL = '3.2.5'
 
 RUBIES_TO_INSTALL.each do |version_string|
