@@ -5,7 +5,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 ## Next Release
 
 1. [#58](../../issues/58): Configure RubyGems credentials.
-1. [#60](../../issues/60): Use Git LFS 3.13.2.
+1. [#60](../../issues/60): Use Git LFS 3.13.3.
 1. [#63](../../issues/63): Use RubyGems 3.2.6.
 1. [#65](../../issues/65): Use bundler 2.2.6.
 
