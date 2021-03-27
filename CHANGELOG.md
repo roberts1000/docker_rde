@@ -2,7 +2,7 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next Release
+## 3.2.0 (Mar 27, 2021)
 
 1. [#58](../../issues/58): Configure RubyGems credentials.
 1. [#60](../../issues/60): Use Git LFS 3.13.3.
