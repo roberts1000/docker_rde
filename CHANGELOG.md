@@ -2,6 +2,10 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
+## Next Release
+
+1. [#75](../../issues/75): Use RubyGems 3.2.17.
+
 ## 3.2.0 (Mar 27, 2021)
 
 1. [#58](../../issues/58): Configure RubyGems credentials.
