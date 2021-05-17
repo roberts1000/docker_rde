@@ -11,6 +11,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#83](../../issues/83): Add Ruby 2.6.7.
 1. [#85](../../issues/85): Remove Ruby 2.6.6.
 1. [#87](../../issues/87): Add Ruby 3.0.1.
+1. [#90](../../issues/90): Make Ruby 2.7.3 the default Ruby.
 
 ## 3.2.0 (Mar 27, 2021)
 
