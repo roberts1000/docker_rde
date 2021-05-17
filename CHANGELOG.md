@@ -7,6 +7,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#75](../../issues/75): Use RubyGems 3.2.17.
 1. [#77](../../issues/77): Use Bundler 2.2.17.
 1. [#79](../../issues/79): Add Ruby 2.7.3.
+1. [#81](../../issues/81): Remove Ruby 2.7.2.
 
 ## 3.2.0 (Mar 27, 2021)
 
