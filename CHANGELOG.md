@@ -5,6 +5,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 ## Next Release
 
 1. [#75](../../issues/75): Use RubyGems 3.2.17.
+1. [#77](../../issues/77): Use Bundler 2.2.17.
 
 ## 3.2.0 (Mar 27, 2021)
 
