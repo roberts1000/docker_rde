@@ -10,6 +10,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#104](../../issues/104): Make Ruby 3.0.2 the default Ruby.
 1. [#106](../../issues/106): Remove Ruby 2.7.3.
 1. [#108](../../issues/108): Remove Ruby 2.6.7.
+1. [#110](../../issues/110): Use NVM 0.38.0.
 
 ## 3.3.0 (Jul 11, 2021)
 
