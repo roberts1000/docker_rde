@@ -2,7 +2,7 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next Release
+## 3.3.0 (Jul 11, 2021)
 
 1. [#75](../../issues/75): Use RubyGems 3.2.23.
 1. [#77](../../issues/77): Use Bundler 2.2.23.
