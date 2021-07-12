@@ -5,6 +5,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 ## Next Release
 
 1. [#98](../../issues/98): Add Ruby 3.0.2.
+1. [#100](../../issues/100): Remove Ruby 3.0.1.
 
 ## 3.3.0 (Jul 11, 2021)
 
