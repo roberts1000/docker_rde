@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # The first version in the list will be set as the default Ruby in RVM.
-RUBIES_TO_INSTALL = ['2.7.3', '3.0.2', '2.6.7']
+RUBIES_TO_INSTALL = ['2.7.4', '2.7.3', '3.0.2', '2.6.7']
 BUNDLER_TO_INSTALL = '2.2.23'
 RUBYGEMS_TO_INSTALL = '3.2.23'
 
