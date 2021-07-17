@@ -2,7 +2,7 @@
 
 Changes marked as **(Internal)** deal with refactoring or development setup. Issues are tracked at https://github.com/roberts1000/docker_rde/issues.
 
-## Next Release
+## 3.4.0 (Jul 17, 2021)
 
 1. [#98](../../issues/98): Add Ruby 3.0.2.
 1. [#100](../../issues/100): Remove Ruby 3.0.1.
@@ -14,7 +14,6 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#112](../../issues/112): Use redis 6.0.14.
 1. [#114](../../issues/114): Use bundler 2.2.24.
 1. [#116](../../issues/114): Use bundler 3.2.24.
-
 
 ## 3.3.0 (Jul 11, 2021)
 
