@@ -13,6 +13,7 @@ Changes marked as **(Internal)** deal with refactoring or development setup. Iss
 1. [#110](../../issues/110): Use NVM 0.38.0.
 1. [#112](../../issues/112): Use redis 6.0.14.
 1. [#114](../../issues/114): Use bundler 2.2.24.
+1. [#116](../../issues/114): Use bundler 3.2.24.
 
 
 ## 3.3.0 (Jul 11, 2021)
